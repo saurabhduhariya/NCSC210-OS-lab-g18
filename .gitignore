@@ -59,3 +59,23 @@ G18_Project2_1/bin/
 
 # Editors
 .vscode/
+
+*~
+_*
+*.o
+*.d
+*.asm
+*.sym
+*.img
+vectors.S
+bootblock
+entryother
+initcode
+initcode.out
+kernelmemfs
+mkfs
+kernel/kernel
+user/usys.S
+.gdbinit
+TAGS
+
