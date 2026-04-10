@@ -7,6 +7,8 @@
 #include "proc.h"
 #include "vm.h"
 
+int shared_msg=0;
+
 uint64
 sys_exit(void)
 {
@@ -106,4 +108,27 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+//added new system call for process creation
+uint64
+sys_getppid(void)
+{
+  return myproc()->parent->pid;
+}
+
+//added send() recv() system calls for IPC
+uint64
+sys_send(void)
+{
+  int value;
+  argint(0,&value);
+  shared_msg =value;
+  return 0;
+}
+
+uint64
+sys_recv(void)
+{
+  return shared_msg;
 }
