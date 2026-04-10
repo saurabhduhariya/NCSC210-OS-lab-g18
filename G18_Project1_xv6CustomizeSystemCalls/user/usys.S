@@ -120,3 +120,8 @@ recv:
  li a7, SYS_recv
  ecall
  ret
+.global clone
+clone:
+ li a7, SYS_clone
+ ecall
+ ret

@@ -45,3 +45,4 @@ entry("uptime");
 entry("getppid");
 entry("send");
 entry("recv");
+entry("clone");

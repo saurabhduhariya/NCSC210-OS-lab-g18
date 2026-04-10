@@ -132,3 +132,14 @@ sys_recv(void)
 {
   return shared_msg;
 }
+
+//added new sys call for lightwait thread sheduling
+
+uint64
+sys_clone(void)
+{
+  uint64 stack;
+  argaddr(0, &stack);  //read first argument(stack pointer)
+
+  return clone(stack); 
+}

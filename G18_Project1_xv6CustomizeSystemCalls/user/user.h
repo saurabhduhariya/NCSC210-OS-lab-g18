@@ -27,6 +27,7 @@ int uptime(void);
 int getppid(void);
 int send(int);
 int recv(void);
+int clone(void *stack);
 
 // ulib.c
 int stat(const char*, struct stat*);
