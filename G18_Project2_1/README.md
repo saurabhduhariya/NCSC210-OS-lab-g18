@@ -9,7 +9,7 @@ In this project, you will develop a series of simplified UNIX-like utilities. Th
 * [x] **`cat`** (`g18-cat`) - Concatenate and display file content
 * [x] **`wc`** (`g18-wc`) - Word, line, and character count
 * [x] **`touch`** (`g18-touch`) - Create empty file and update file timestamps
-* [x] **`cp`** (`g18-cp`) - Copy files
+* [x] **`cp`** (`g18_cp`) - Copy files
 
 ### ⏳ Remaining
 * [ ] **`grep`** (`g18-grep`) - Search for patterns in files

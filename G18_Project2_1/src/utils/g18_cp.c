@@ -5,7 +5,7 @@ int main(int argc, char *argv[]) {
     int ch;
 
     if (argc != 3) {
-        printf("Usage: g18-cp <source_file> <destination_file>\n");
+        printf("Usage: g18_cp <source_file> <destination_file>\n");
         return 1;
     }
 
