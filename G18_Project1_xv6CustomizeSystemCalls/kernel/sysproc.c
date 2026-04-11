@@ -6,6 +6,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "vm.h"
+#include "shmem.h"
 
 uint64
 sys_exit(void)
@@ -195,4 +196,47 @@ uint64 sys_increment(void) {
 
 uint64 sys_getcounter(void) {
  return shared_counter;
+}
+
+// ---- Shared Memory Syscalls ----
+
+// shmget(key, size): create or get a shared memory segment.
+// Returns segment id on success, -1 on failure.
+uint64
+sys_shmget(void)
+{
+  int key;
+  uint64 size;
+  argint(0, &key);
+  argaddr(1, &size);
+  return shmem_get(key, size);
+}
+
+// shmat(id): attach shared memory segment to this process.
+// Returns virtual address on success, 0 on failure.
+uint64
+sys_shmat(void)
+{
+  int id;
+  argint(0, &id);
+  struct proc *p = myproc();
+  uint64 va = shmem_at(id, p->pagetable, p->sz);
+  if (va == 0)
+    return (uint64)-1;
+  // Extend process size to cover the newly mapped region
+  p->sz = va + PGSIZE;
+  return va;
+}
+
+// shmdt(id, va): detach shared memory segment from this process.
+// Returns 0 on success, -1 on failure.
+uint64
+sys_shmdt(void)
+{
+  int id;
+  uint64 va;
+  argint(0, &id);
+  argaddr(1, &va);
+  struct proc *p = myproc();
+  return shmem_dt(id, p->pagetable, va);
 }

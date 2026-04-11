@@ -61,3 +61,8 @@ int mylock_acquire(void);
 int mylock_release(void);
 int increment(void);
 int getcounter(void);
+
+// Shared memory
+int shmget(int key, int size);
+void* shmat(int id);
+int shmdt(int id, void* addr);

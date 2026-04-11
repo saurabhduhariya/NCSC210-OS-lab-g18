@@ -33,3 +33,8 @@
 #define SYS_increment        31
 #define SYS_getcounter       32
 
+// Shared memory syscalls
+#define SYS_shmget           33
+#define SYS_shmat            34
+#define SYS_shmdt            35
+

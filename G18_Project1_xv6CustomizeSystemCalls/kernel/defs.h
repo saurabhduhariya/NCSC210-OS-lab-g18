@@ -177,6 +177,11 @@ void            plicinithart(void);
 int             plic_claim(void);
 void            plic_complete(int);
 
+// shmem.c
+void            shmeminit(void);
+int             shmem_get(int key, uint64 size);
+uint64          shmem_at(int id, pagetable_t pt, uint64 sz);
+int             shmem_dt(int id, pagetable_t pt, uint64 va);
 // virtio_disk.c
 void            virtio_disk_init(void);
 void            virtio_disk_rw(struct buf *, int);

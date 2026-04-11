@@ -55,3 +55,7 @@ entry("mylock_acquire");
 entry("mylock_release");
 entry("increment");
 entry("getcounter");
+
+entry("shmget");
+entry("shmat");
+entry("shmdt");
