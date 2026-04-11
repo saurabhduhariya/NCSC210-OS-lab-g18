@@ -24,10 +24,15 @@ int getpid(void);
 char* sys_sbrk(int,int);
 int pause(int);
 int uptime(void);
+
 int getppid(void);
 int send(int);
 int recv(void);
 int clone(void *stack);
+
+int alarm_signal(int, void (*)());
+int sigreturn(void);
+
 
 // ulib.c
 int stat(const char*, struct stat*);

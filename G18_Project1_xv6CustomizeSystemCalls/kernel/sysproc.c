@@ -7,8 +7,6 @@
 #include "proc.h"
 #include "vm.h"
 
-int shared_msg=0;
-
 uint64
 sys_exit(void)
 {
@@ -110,27 +108,27 @@ sys_uptime(void)
   return xticks;
 }
 
-//added new system call for process creation
 uint64
-sys_getppid(void)
+sys_alarm_signal(void)
 {
-  return myproc()->parent->pid;
-}
-
-//added send() recv() system calls for IPC
-uint64
-sys_send(void)
-{
-  int value;
-  argint(0,&value);
-  shared_msg =value;
+  int n;
+  uint64 handler;
+  argint(0, &n);
+  argaddr(1, &handler);
+  struct proc *p = myproc();
+  p->alarm_interval = n;
+  p->alarm_handler = handler;
+  p->alarm_ticks = 0;
   return 0;
 }
 
 uint64
-sys_recv(void)
+sys_sigreturn(void)
 {
-  return shared_msg;
+  struct proc *p = myproc();
+  memmove(p->trapframe, p->alarm_tf, sizeof(struct trapframe));
+  p->alarm_running = 0;
+  return p->trapframe->a0;
 }
 
 //added new sys call for lightwait thread sheduling

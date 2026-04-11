@@ -42,7 +42,11 @@ entry("getpid");
 entry("sbrk");
 entry("pause");
 entry("uptime");
+
 entry("getppid");
 entry("send");
 entry("recv");
 entry("clone");
+entry("alarm_signal");
+entry("sigreturn");
+
