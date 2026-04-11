@@ -4,13 +4,17 @@ In this project, you will develop a series of simplified UNIX-like utilities. Th
 
 ## Utilities to Implement
 
-* **`ls`** - List directory contents
-* **`cat`** - Concatenate and display file content
-* **`grep`** - Search for patterns in files
-* **`wc`** - Word, line, and character count
-* **`cp`** - Copy files
-* **`mv`** - Move or rename files
-* **`rm`** - Remove files or directories
+### ✅ Implemented
+* [x] **`ls`** (`g18-ls`) - List directory contents
+* [x] **`cat`** (`g18-cat`) - Concatenate and display file content
+* [x] **`wc`** (`g18-wc`) - Word, line, and character count
+* [x] **`touch`** (`g18-touch`) - Create empty file and update file timestamps
+
+### ⏳ Remaining
+* [ ] **`grep`** (`g18-grep`) - Search for patterns in files
+* [ ] **`cp`** (`g18-cp`) - Copy files
+* [ ] **`mv`** (`g18-mv`) - Move or rename files
+* [ ] **`rm`** (`g18-rm`) - Remove files or directories
 
 ## Requirements & Notes
 
