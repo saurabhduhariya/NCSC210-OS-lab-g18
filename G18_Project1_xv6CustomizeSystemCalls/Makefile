@@ -147,11 +147,8 @@ UPROGS=\
 	$U/_dorphan\
 	$U/_test\
 	$U/_ipctest\
-
 	$U/_thtest\
-
-
-	$U/_alarmtest\
+	$U/_alarmtest
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

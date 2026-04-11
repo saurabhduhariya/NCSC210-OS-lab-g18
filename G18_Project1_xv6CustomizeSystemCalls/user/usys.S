@@ -125,3 +125,13 @@ clone:
  li a7, SYS_clone
  ecall
  ret
+.global alarm_signal
+alarm_signal:
+ li a7, SYS_alarm_signal
+ ecall
+ ret
+.global sigreturn
+sigreturn:
+ li a7, SYS_sigreturn
+ ecall
+ ret

@@ -141,3 +141,27 @@ sys_clone(void)
 
   return clone(stack); 
 }
+
+int shared_msg = 0;
+
+uint64
+sys_getppid(void)
+{
+  return myproc()->parent->pid;
+}
+
+uint64
+sys_send(void)
+{
+  int value;
+  argint(0, &value);
+  shared_msg = value;
+  return 0;
+}
+
+uint64
+sys_recv(void)
+{
+  return shared_msg;
+}
+
