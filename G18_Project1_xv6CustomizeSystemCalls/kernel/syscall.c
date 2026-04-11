@@ -108,6 +108,11 @@ extern uint64 sys_recv(void);
 extern uint64 sys_clone(void);
 extern uint64 sys_alarm_signal(void);
 extern uint64 sys_sigreturn(void);
+extern uint64 sys_mylock_init(void);
+extern uint64 sys_mylock_acquire(void);
+extern uint64 sys_mylock_release(void);
+extern uint64 sys_increment(void);
+extern uint64 sys_getcounter(void);
 
 
 // An array mapping syscall numbers from syscall.h
@@ -141,6 +146,11 @@ static uint64 (*syscalls[])(void) = {
 [SYS_clone]   sys_clone,
 [SYS_alarm_signal] sys_alarm_signal,
 [SYS_sigreturn]    sys_sigreturn,
+[SYS_mylock_init]    sys_mylock_init,
+[SYS_mylock_acquire] sys_mylock_acquire,
+[SYS_mylock_release] sys_mylock_release,
+[SYS_increment]      sys_increment,
+[SYS_getcounter]     sys_getcounter,
 
 };
 

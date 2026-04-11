@@ -165,3 +165,34 @@ sys_recv(void)
   return shared_msg;
 }
 
+
+struct {
+ int locked;
+} mylock;
+
+int shared_counter = 0;
+
+uint64 sys_mylock_init(void) {
+ mylock.locked = 0;
+ return 0;
+}
+
+uint64 sys_mylock_acquire(void) {
+ while(__sync_lock_test_and_set(&mylock.locked, 1) != 0)
+   ; // busy wait
+ return 0;
+}
+
+uint64 sys_mylock_release(void) {
+ __sync_lock_release(&mylock.locked);
+ return 0;
+}
+
+uint64 sys_increment(void) {
+ shared_counter++;
+ return 0;
+}
+
+uint64 sys_getcounter(void) {
+ return shared_counter;
+}

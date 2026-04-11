@@ -50,3 +50,8 @@ entry("clone");
 entry("alarm_signal");
 entry("sigreturn");
 
+entry("mylock_init");
+entry("mylock_acquire");
+entry("mylock_release");
+entry("increment");
+entry("getcounter");

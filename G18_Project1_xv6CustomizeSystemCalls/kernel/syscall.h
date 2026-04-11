@@ -27,4 +27,9 @@
 #define SYS_clone 25
 #define SYS_alarm_signal 26
 #define SYS_sigreturn    27
+#define SYS_mylock_init      28
+#define SYS_mylock_acquire   29
+#define SYS_mylock_release   30
+#define SYS_increment        31
+#define SYS_getcounter       32
 

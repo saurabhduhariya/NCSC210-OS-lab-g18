@@ -135,3 +135,28 @@ sigreturn:
  li a7, SYS_sigreturn
  ecall
  ret
+.global mylock_init
+mylock_init:
+ li a7, SYS_mylock_init
+ ecall
+ ret
+.global mylock_acquire
+mylock_acquire:
+ li a7, SYS_mylock_acquire
+ ecall
+ ret
+.global mylock_release
+mylock_release:
+ li a7, SYS_mylock_release
+ ecall
+ ret
+.global increment
+increment:
+ li a7, SYS_increment
+ ecall
+ ret
+.global getcounter
+getcounter:
+ li a7, SYS_getcounter
+ ecall
+ ret
