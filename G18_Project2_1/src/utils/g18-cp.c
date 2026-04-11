@@ -1,12 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "../../include/common.h"
 
 int main(int argc, char *argv[]) {
     FILE *src, *dest;
-    char ch;
+    int ch;
 
     if (argc != 3) {
-        printf("Usage: custom_cp source_file destination_file\n");
+        printf("Usage: g18-cp <source_file> <destination_file>\n");
         return 1;
     }
 
