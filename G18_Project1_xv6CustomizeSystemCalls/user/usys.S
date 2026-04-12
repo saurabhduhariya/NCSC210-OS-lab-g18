@@ -160,3 +160,18 @@ getcounter:
  li a7, SYS_getcounter
  ecall
  ret
+.global shmget
+shmget:
+ li a7, SYS_shmget
+ ecall
+ ret
+.global shmat
+shmat:
+ li a7, SYS_shmat
+ ecall
+ ret
+.global shmdt
+shmdt:
+ li a7, SYS_shmdt
+ ecall
+ ret
