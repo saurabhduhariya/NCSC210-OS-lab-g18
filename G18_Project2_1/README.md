@@ -10,11 +10,11 @@ In this project, you will develop a series of simplified UNIX-like utilities. Th
 * [x] **`wc`** (`g18-wc`) - Word, line, and character count
 * [x] **`touch`** (`g18-touch`) - Create empty file and update file timestamps
 * [x] **`cp`** (`g18_cp`) - Copy files
+* [x] **`mv`** (`g18-mv`) - Move or rename files
+* [x] **`rm`** (`g18-rm`) - Remove files or directories
 
 ### ⏳ Remaining
 * [ ] **`grep`** (`g18-grep`) - Search for patterns in files
-* [ ] **`mv`** (`g18-mv`) - Move or rename files
-* [ ] **`rm`** (`g18-rm`) - Remove files or directories
 
 ## Requirements & Notes
 
