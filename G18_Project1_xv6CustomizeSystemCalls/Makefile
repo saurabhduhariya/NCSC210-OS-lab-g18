@@ -149,7 +149,8 @@ UPROGS=\
 	$U/_ipctest\
 	$U/_thtest\
 	$U/_alarmtest\
-	$U/_mylocktest
+	$U/_mylocktest\
+	$U/_schedtest
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

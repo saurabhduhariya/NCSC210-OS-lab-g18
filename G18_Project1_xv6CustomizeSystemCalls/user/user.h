@@ -29,6 +29,9 @@ int getppid(void);
 int send(int);
 int recv(void);
 int clone(void *stack);
+int yield(void);
+int setpriority(int pid, int priority);
+int getpriority(int pid);
 
 int alarm_signal(int, void (*)());
 int sigreturn(void);

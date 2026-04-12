@@ -131,6 +131,34 @@ sys_sigreturn(void)
   return p->trapframe->a0;
 }
 
+uint64
+sys_yield(void)
+{
+  yield();
+  return 0;
+}
+
+uint64
+sys_setpriority(void)
+{
+  int pid, priority;
+  argint(0, &pid);
+  argint(1, &priority);
+  if(pid == 0)
+    pid = myproc()->pid;
+  return ksetpriority(pid, priority);
+}
+
+uint64
+sys_getpriority(void)
+{
+  int pid;
+  argint(0, &pid);
+  if(pid == 0)
+    pid = myproc()->pid;
+  return kgetpriority(pid);
+}
+
 //added new sys call for lightwait thread sheduling
 
 uint64

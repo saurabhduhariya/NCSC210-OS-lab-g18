@@ -47,6 +47,9 @@ entry("getppid");
 entry("send");
 entry("recv");
 entry("clone");
+entry("yield");
+entry("setpriority");
+entry("getpriority");
 entry("alarm_signal");
 entry("sigreturn");
 
