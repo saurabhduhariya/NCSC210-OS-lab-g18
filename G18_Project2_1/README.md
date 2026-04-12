@@ -9,12 +9,66 @@ In this project, you will develop a series of simplified UNIX-like utilities. Th
 * [x] **`cat`** (`g18-cat`) - Concatenate and display file content
 * [x] **`wc`** (`g18-wc`) - Word, line, and character count
 * [x] **`touch`** (`g18-touch`) - Create empty file and update file timestamps
-* [x] **`cp`** (`g18_cp`) - Copy files
+* [x] **`cp`** (`g18-cp`) - Copy files
+* [x] **`grep`** (`g18-grep`) - Search for patterns in files
+* [x] **`mv`** (`g18-mv`) - Move or rename files
+* [x] **`rm`** (`g18-rm`) - Remove files or directories
 
 ### ⏳ Remaining
-* [ ] **`grep`** (`g18-grep`) - Search for patterns in files
-* [ ] **`mv`** (`g18-mv`) - Move or rename files
-* [ ] **`rm`** (`g18-rm`) - Remove files or directories
+*(All core utilities are implemented!)*
+
+---
+
+## `g18-grep` — Pattern Search Utility
+
+Searches for a text pattern inside one or more files, similar to the standard `grep` command.
+
+### Syntax
+```
+g18-grep [OPTIONS] <pattern> <file...>
+```
+
+### Options
+
+| Flag | Description |
+| :--- | :--- |
+| `-i` | Case-insensitive matching |
+| `-n` | Prefix each matching line with its line number |
+| `-c` | Print only the count of matching lines per file |
+| `-v` | Invert match — print lines that do **not** contain the pattern |
+
+### Examples
+
+```bash
+# Basic search
+g18-shell> g18-grep hello file.txt
+
+# Case-insensitive search
+g18-shell> g18-grep -i hello file.txt
+
+# Show line numbers
+g18-shell> g18-grep -n error log.txt
+
+# Count matches only
+g18-shell> g18-grep -c error log.txt
+
+# Invert match (lines without the pattern)
+g18-shell> g18-grep -v error log.txt
+
+# Search across multiple files (filename is prefixed automatically)
+g18-shell> g18-grep -n TODO src/utils/g18_cat.c src/utils/g18_wc.c
+
+# Combine flags
+g18-shell> g18-grep -i -n -v error log.txt
+```
+
+### Exit Codes
+| Code | Meaning |
+| :--- | :--- |
+| `0` | At least one matching line was found |
+| `1` | No matching lines found |
+
+---
 
 ## Requirements & Notes
 
