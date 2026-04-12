@@ -37,7 +37,7 @@ Provide comprehensive documentation for the project, including:
 ### ✅ Completed Functionalities
 
 - [x] **Process Tracking:** Implemented `getppid` to get the parent process ID.
-- [x] **Inter-Process Communication (IPC):** Implemented `send` and `recv` for message passing.
+- [x] **Inter-Process Communication (IPC):** Implemented `send` and `recv` for message passing and implemented shared memory.
 - [x] **Threads:** Implemented `clone` to provide kernel-level support for lightweight processes.
 - [x] **Signals:** Added `alarm_signal` and `sigreturn` for process notification and alarm handling.
 - [x] **Locks:** Implemented `mylock_init`, `mylock_acquire`, and `mylock_release` system calls for synchronization.
