@@ -125,6 +125,21 @@ clone:
  li a7, SYS_clone
  ecall
  ret
+.global yield
+yield:
+ li a7, SYS_yield
+ ecall
+ ret
+.global setpriority
+setpriority:
+ li a7, SYS_setpriority
+ ecall
+ ret
+.global getpriority
+getpriority:
+ li a7, SYS_getpriority
+ ecall
+ ret
 .global alarm_signal
 alarm_signal:
  li a7, SYS_alarm_signal
@@ -158,5 +173,20 @@ increment:
 .global getcounter
 getcounter:
  li a7, SYS_getcounter
+ ecall
+ ret
+.global shmget
+shmget:
+ li a7, SYS_shmget
+ ecall
+ ret
+.global shmat
+shmat:
+ li a7, SYS_shmat
+ ecall
+ ret
+.global shmdt
+shmdt:
+ li a7, SYS_shmdt
  ecall
  ret

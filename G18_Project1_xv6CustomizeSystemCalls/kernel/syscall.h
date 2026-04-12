@@ -32,6 +32,9 @@
 #define SYS_mylock_release   30
 #define SYS_increment        31
 #define SYS_getcounter       32
+#define SYS_yield            33
+#define SYS_setpriority      34
+#define SYS_getpriority      35
 
 // Shared memory syscalls
 #define SYS_shmget           33

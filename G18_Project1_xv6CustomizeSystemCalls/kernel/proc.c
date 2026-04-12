@@ -102,6 +102,43 @@ allocpid()
   return pid;
 }
 
+int
+ksetpriority(int pid, int priority)
+{
+  struct proc *p;
+
+  if(priority < 0 || priority > 100)
+    return -1;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    acquire(&p->lock);
+    if(p->pid == pid){
+      p->priority = priority;
+      release(&p->lock);
+      return 0;
+    }
+    release(&p->lock);
+  }
+  return -1;
+}
+
+int
+kgetpriority(int pid)
+{
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    acquire(&p->lock);
+    if(p->pid == pid){
+      int pr = p->priority;
+      release(&p->lock);
+      return pr;
+    }
+    release(&p->lock);
+  }
+  return -1;
+}
+
 // Look in the process table for an UNUSED proc.
 // If found, initialize state required to run in the kernel,
 // and return with p->lock held.
@@ -143,6 +180,7 @@ found:
   p->alarm_ticks = 0;
   p->alarm_handler = 0;
   p->alarm_running = 0;
+  p->priority = 1;
 
   // An empty user page table.
   p->pagetable = proc_pagetable(p);
@@ -295,6 +333,7 @@ kfork(void)
     return -1;
   }
   np->sz = p->sz;
+  np->priority = p->priority;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
@@ -358,6 +397,7 @@ clone(uint64 stack)
   np->cwd = idup(p->cwd);
 
   safestrcpy(np->name, p->name, sizeof(p->name));
+  np->priority = p->priority;
 
   pid = np->pid;
 
@@ -494,6 +534,7 @@ void
 scheduler(void)
 {
   struct proc *p;
+  struct proc *best;
   struct cpu *c = mycpu();
 
   c->proc = 0;
@@ -507,22 +548,32 @@ scheduler(void)
     intr_off();
 
     int found = 0;
+    best = 0;
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
-        // Switch to chosen process.  It is the process's job
-        // to release its lock and then reacquire it
-        // before jumping back to us.
-        p->state = RUNNING;
-        c->proc = p;
-        swtch(&c->context, &p->context);
-
-        // Process is done running for now.
-        // It should have changed its p->state before coming back.
-        c->proc = 0;
-        found = 1;
+        if(best == 0 || p->priority < best->priority) {
+          if(best)
+            release(&best->lock);
+          best = p;
+        } else {
+          release(&p->lock);
+        }
+      } else {
+        release(&p->lock);
       }
-      release(&p->lock);
+    }
+
+    if(best) {
+      best->state = RUNNING;
+      c->proc = best;
+      swtch(&c->context, &best->context);
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
+      found = 1;
+      release(&best->lock);
     }
     if(found == 0) {
       // nothing to run; stop running on this core until an interrupt.

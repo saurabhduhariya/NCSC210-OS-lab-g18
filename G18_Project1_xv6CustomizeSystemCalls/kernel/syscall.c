@@ -113,6 +113,9 @@ extern uint64 sys_mylock_acquire(void);
 extern uint64 sys_mylock_release(void);
 extern uint64 sys_increment(void);
 extern uint64 sys_getcounter(void);
+extern uint64 sys_yield(void);
+extern uint64 sys_setpriority(void);
+extern uint64 sys_getpriority(void);
 
 extern uint64 sys_shmget(void);
 extern uint64 sys_shmat(void);
@@ -155,6 +158,9 @@ static uint64 (*syscalls[])(void) = {
 [SYS_mylock_release] sys_mylock_release,
 [SYS_increment]      sys_increment,
 [SYS_getcounter]     sys_getcounter,
+[SYS_yield]          sys_yield,
+[SYS_setpriority]    sys_setpriority,
+[SYS_getpriority]    sys_getpriority,
 
 [SYS_shmget]         sys_shmget,
 [SYS_shmat]          sys_shmat,
