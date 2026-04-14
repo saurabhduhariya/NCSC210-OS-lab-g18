@@ -209,14 +209,23 @@ freeproc(struct proc *p)
     kfree((void*)p->trapframe);
   p->trapframe = 0;
 
-  if(p->pagetable && !p->is_thread)
-
   if(p->alarm_tf)
     kfree((void*)p->alarm_tf);
   p->alarm_tf = 0;
-  if(p->pagetable)
 
-    proc_freepagetable(p->pagetable, p->sz);
+  if(p->pagetable) {
+    if(p->is_thread) {
+      // Thread: unmap user pages without freeing physical memory (shared with parent).
+      uvmunmap(p->pagetable, 0, PGROUNDUP(p->sz)/PGSIZE, 0);
+      // Unmap trampoline and trapframe mappings.
+      uvmunmap(p->pagetable, TRAMPOLINE, 1, 0);
+      uvmunmap(p->pagetable, TRAPFRAME, 1, 0);
+      // Free the page table structure itself.
+      uvmfree(p->pagetable, 0);
+    } else {
+      proc_freepagetable(p->pagetable, p->sz);
+    }
+  }
   p->pagetable = 0;
   p->sz = 0;
   p->pid = 0;
@@ -371,23 +380,29 @@ clone(uint64 stack)
   struct proc *np;
   struct proc *p = myproc();
 
-  // Allocate process.
+  // Allocate process (gives np its own trapframe + its own pagetable).
   if((np = allocproc()) == 0){
     return -1;
   }
 
-  // Instead of copying user memory, share the page table.
-  np->pagetable = p->pagetable;
+  // Map the parent's user memory into the thread's page table,
+  // sharing the same physical pages (no copy).
+  if(uvmshare(p->pagetable, np->pagetable, p->sz) < 0){
+    freeproc(np);
+    release(&np->lock);
+    return -1;
+  }
+
   np->sz = p->sz;
   np->is_thread = 1;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
 
-  // Cause fork to return 0 in the child.
+  // Cause clone to return 0 in the child thread.
   np->trapframe->a0 = 0;
   
-  // Define thread stack. 
+  // Set the thread's stack pointer.
   np->trapframe->sp = stack;
 
   // increment reference counts on open file descriptors.

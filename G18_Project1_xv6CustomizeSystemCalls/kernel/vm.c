@@ -323,6 +323,34 @@ uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
   return -1;
 }
 
+// Map the same physical pages from old into new (sharing, no copy).
+// Returns 0 on success, -1 on failure.
+int
+uvmshare(pagetable_t old, pagetable_t new, uint64 sz)
+{
+  pte_t *pte;
+  uint64 pa, i;
+  uint flags;
+
+  for(i = 0; i < sz; i += PGSIZE){
+    if((pte = walk(old, i, 0)) == 0)
+      continue;
+    if((*pte & PTE_V) == 0)
+      continue;
+    pa = PTE2PA(*pte);
+    flags = PTE_FLAGS(*pte);
+    if(mappages(new, i, PGSIZE, pa, flags) != 0){
+      goto err;
+    }
+  }
+  return 0;
+
+ err:
+  // Unmap without freeing physical pages (they belong to parent)
+  uvmunmap(new, 0, i / PGSIZE, 0);
+  return -1;
+}
+
 // mark a PTE invalid for user access.
 // used by exec for the user stack guard page.
 void
