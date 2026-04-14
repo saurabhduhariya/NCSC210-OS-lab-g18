@@ -87,21 +87,21 @@ All utilities are implemented and available in `src/utils/`.
 File: `src/utils/g18_ls.c`
 
 Purpose:
-List directory contents.
+The `ls` utility is used to list directory contents.
+
+Features:
+- Includes hidden files with `-a` option.
+- Shows long listing format with `-l` option.
 
 Usage:
 ```bash
 g18_ls [-a] [-l] [directory]
 ```
 
-Supported options:
-1. `-a`: include hidden files.
-2. `-l`: long listing format.
-
-Implementation highlights:
-1. Uses `scandir()` with `alphasort` for ordered output.
-2. Uses `lstat()` for metadata in long mode.
-3. Shows colored directory names.
+Implementation Details:
+- Uses `scandir()` with `alphasort` for ordered output.
+- Uses `lstat()` for metadata in long mode.
+- Shows colored directory names.
 
 ### g18_ls Screenshot
 
@@ -112,73 +112,101 @@ Implementation highlights:
 File: `src/utils/g18_cat.c`
 
 Purpose:
-Display file content, optionally with line numbers.
+The `cat` utility is used to display the contents of a file. It can also optionally display line numbers for each line.
+
+Features:
+- Displays contents of one or more files.
+- Supports optional argument `-n` to show line numbers.
+- Reads from standard input if no file is provided.
 
 Usage:
 ```bash
-g18_cat [-n] [file...]
+g18_cat file.txt
+g18_cat -n file.txt
+g18_cat file1.txt file2.txt
 ```
 
-Supported options:
-1. `-n`: print line numbers.
+Implementation Details:
+- Uses `fgets()` for line-by-line reading when line numbering is enabled.
+- Uses `fread()` and `fwrite()` for efficient block-based copying otherwise.
+- Supports multiple files by iterating through command-line arguments.
+- Falls back to standard input if no file is specified.
 
-Implementation highlights:
-1. Reads from `stdin` if no file is provided.
-2. Uses buffered reads and writes for normal mode.
-3. Uses line-based reading for numbered output.
+### g18_cat Screenshot
+
+![g18_cat output screenshot](images/g18_cat_output.png)
 
 ### 6.3 g18_wc
 
 File: `src/utils/g18_wc.c`
 
 Purpose:
-Count lines, words, and characters.
+The `wc` utility is used to count lines, words, and characters in a specified file.
+
+Features:
+- Shows line count only with `-l` option.
+- Shows word count only with `-w` option.
+- Shows character count only with `-c` option.
 
 Usage:
 ```bash
 g18_wc [-l] [-w] [-c] <file>
 ```
 
-Supported options:
-1. `-l`: show line count only.
-2. `-w`: show word count only.
-3. `-c`: show character count only.
+Implementation Details:
+- If no flag is given, prints all three counts.
+- Uses simple whitespace boundary logic for words.
 
-Implementation highlights:
-1. If no flag is given, prints all three counts.
-2. Uses simple whitespace boundary logic for words.
+### g18_wc screenshot
+
+![g18_wc output screenshot](images/g18_wc_output.jpeg)
 
 ### 6.4 g18_touch
 
 File: `src/utils/g18_touch.c`
 
 Purpose:
-Create empty files if missing and update timestamps.
+The `touch` utility is used to create a new file if it does not exist or update the access and
+modification timestamps of an existing file.
+
+Features:
+- Creates files if they do not exist.
+- Updates file timestamps using system calls.
 
 Usage:
 ```bash
-g18_touch <file...>
+g18_touch file.txt
+g18_touch file1.txt file2.txt
 ```
 
-Implementation highlights:
-1. Uses `open(..., O_CREAT, 0666)` to create file.
-2. Uses `utime(..., NULL)` to update access/modification times.
+Implementation Details:
+- Uses `open()` with `O_CREAT` flag to create files if they do not exist.
+- Uses `utime()` to update file timestamps.
+- Iterates through all provided file arguments.
+- Handles errors using `perror()`.
+
+### g18_touch Screenshot
+
+![g18_touch output screenshot](images/g18_touch_output.png)
 
 ### 6.5 g18_cp
 
 File: `src/utils/g18_cp.c`
 
 Purpose:
-Copy source file to destination file.
+The `cp` utility is used to copy a source file to a destination file.
+
+Features:
+- Copies file contents byte by byte.
 
 Usage:
 ```bash
 g18_cp <source_file> <destination_file>
 ```
 
-Implementation highlights:
-1. Opens source in read mode and destination in write mode.
-2. Copies data byte by byte using `fgetc()` and `fputc()`.
+Implementation Details:
+- Opens source in read mode and destination in write mode.
+- Copies data byte by byte using `fgetc()` and `fputc()`.
 
 ### g18_cp screenshot
 
@@ -189,53 +217,56 @@ Implementation highlights:
 File: `src/utils/g18_mv.c`
 
 Purpose:
-Move or rename a file.
+The `mv` utility is used to move or rename a file.
+
+Features:
+- Moves or renames the specified file to the destination path.
 
 Usage:
 ```bash
 g18_mv <source> <destination>
 ```
 
-Implementation highlights:
-1. Uses `rename()` for move/rename operation.
+Implementation Details:
+- Uses `rename()` for the move/rename operation.
 
 ### 6.7 g18_rm
 
 File: `src/utils/g18_rm.c`
 
 Purpose:
-Remove files and directories.
+The `rm` utility is used to remove files and directories.
+
+Features:
+- Allows directory removal with `-r` option.
 
 Usage:
 ```bash
 g18_rm [-r] <path...>
 ```
 
-Supported options:
-1. `-r`: allow directory removal via `rmdir()`.
-
-Implementation highlights:
-1. Tries `unlink()` first.
-2. If `-r` is set, attempts `rmdir()` for directory paths.
+Implementation Details:
+- Tries `unlink()` first.
+- If `-r` is set, attempts `rmdir()` for directory paths.
 
 ### 6.8 g18_mkdir
 
 File: `src/utils/g18_mkdir.c`
 
 Purpose:
-Create one or more directories.
+The `mkdir` utility is used to create one or more directories.
+
+Features:
+- Creates parent directories as needed with `-p` option.
 
 Usage:
 ```bash
 g18_mkdir [-p] <directory...>
 ```
 
-Supported options:
-1. `-p`: create parent directories as needed.
-
-Implementation highlights:
-1. Normal mode uses `mkdir(path, 0777)`.
-2. `-p` mode creates intermediate directories safely.
+Implementation Details:
+- Normal mode uses `mkdir(path, 0777)`.
+- `-p` mode creates intermediate directories safely.
 
 ### g18_mkdir screenshot
 
@@ -246,60 +277,25 @@ Implementation highlights:
 File: `src/utils/g18_grep.c`
 
 Purpose:
-Search for a pattern in one or more files.
+The `grep` utility is used to search for a pattern in one or more files.
+
+Features:
+- Supports case-insensitive search with `-i` option.
+- Prints line numbers with `-n` option.
+- Prints match count only with `-c` option.
+- Inverts match with `-v` option.
 
 Usage:
 ```bash
 g18_grep [-i] [-n] [-c] [-v] <pattern> <file...>
 ```
 
-Supported options:
-1. `-i`: case-insensitive search.
-2. `-n`: print line numbers.
-3. `-c`: print match count only.
-4. `-v`: invert match.
+Implementation Details:
+- Supports single-file and multi-file output formatting.
+- Returns exit code `0` if at least one match is found, otherwise `1`.
 
-Implementation highlights:
-1. Supports single-file and multi-file output formatting.
-2. Returns exit code `0` if at least one match is found, otherwise `1`.
-
-## 7. Example Session
-
-```bash
-$ make
-$ ./bin/g18-shell
-g18-shell> g18_mkdir demo
-g18-shell> g18_touch demo/a.txt
-g18-shell> g18_ls -l demo
-g18-shell> g18_cp demo/a.txt demo/b.txt
-g18-shell> g18_wc demo/b.txt
-g18-shell> g18_grep -n hello demo/b.txt
-g18-shell> exit
-```
-
-## 8. Error Handling Approach
+## 7. Error Handling Approach
 
 1. Invalid usage prints a usage message.
 2. File and directory failures report system errors (`perror` or equivalent messages).
 3. Shell prints a clear message if command is not found in `./bin/`.
-
-## 9. Team Development Workflow
-
-1. Add new utility in `src/utils/` using naming pattern `g18_<name>.c`.
-2. Rebuild with `make`.
-3. Test directly (`./bin/<utility> ...`) and through shell (`./bin/g18-shell`).
-4. Commit only source/docs changes; avoid committing generated binaries.
-
-## 10. Deliverables Checklist
-
-1. Source code for shell and all listed utilities.
-2. Working `Makefile` for build and clean.
-3. Updated `README.md` with build, usage, and implementation details.
-4. Execution screenshots (add below if required by submission format).
-
-## 11. Screenshot Section
-
-Add screenshots of:
-1. `make` build output.
-2. Shell startup (`g18-shell>` prompt).
-3. Execution of each utility command.
