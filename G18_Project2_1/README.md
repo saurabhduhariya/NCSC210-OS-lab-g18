@@ -180,6 +180,10 @@ Implementation highlights:
 1. Opens source in read mode and destination in write mode.
 2. Copies data byte by byte using `fgetc()` and `fputc()`.
 
+### g18_cp screenshot
+
+![g18_cp output screenshot](images/g18_cp_output.jpeg)
+
 ### 6.6 g18_mv
 
 File: `src/utils/g18_mv.c`
