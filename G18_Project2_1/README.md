@@ -17,7 +17,31 @@ Each command runs as an external executable from the `bin/` directory.
 3. Keep the build process simple and reproducible using `make`.
 4. Maintain a clean source layout for team development.
 
-## 3. Project Structure
+## 3. Build and Run
+
+### Build all binaries
+
+```bash
+make
+```
+
+### Run shell
+
+```bash
+./bin/g18-shell
+```
+
+### Clean build outputs
+
+```bash
+make clean
+```
+
+Notes:
+1. `make` auto-compiles every `.c` file inside `src/utils/` into `bin/`.
+2. If old binaries are present, run `make clean` before rebuilding.
+
+## 4. Project Structure
 
 ```text
 G18_Project2_1/
@@ -41,30 +65,6 @@ G18_Project2_1/
 ├── bin/                 # Generated binaries
 └── tests/
 ```
-
-## 4. Build and Run
-
-### Build all binaries
-
-```bash
-make
-```
-
-### Run shell
-
-```bash
-./bin/g18-shell
-```
-
-### Clean build outputs
-
-```bash
-make clean
-```
-
-Notes:
-1. `make` auto-compiles every `.c` file inside `src/utils/` into `bin/`.
-2. If old binaries are present, run `make clean` before rebuilding.
 
 ## 5. Shell Design
 
@@ -230,6 +230,10 @@ g18_mv <source> <destination>
 Implementation Details:
 - Uses `rename()` for the move/rename operation.
 
+### g18_mv Screenshot
+
+![g18_mv output screenshot](images/g18_mv_output.png)
+
 ### 6.7 g18_rm
 
 File: `src/utils/g18_rm.c`
@@ -248,6 +252,10 @@ g18_rm [-r] <path...>
 Implementation Details:
 - Tries `unlink()` first.
 - If `-r` is set, attempts `rmdir()` for directory paths.
+
+### g18_rm Screenshot
+
+![g18_rm output screenshot](images/g18_rm_output.png)
 
 ### 6.8 g18_mkdir
 
@@ -293,6 +301,10 @@ g18_grep [-i] [-n] [-c] [-v] <pattern> <file...>
 Implementation Details:
 - Supports single-file and multi-file output formatting.
 - Returns exit code `0` if at least one match is found, otherwise `1`.
+
+### g18_grep Screenshot
+
+![g18_grep output screenshot](images/g18_grep_output.png)
 
 ## 7. Error Handling Approach
 
